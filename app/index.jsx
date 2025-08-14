@@ -1,9 +1,30 @@
+import axios from 'axios';
+import { useState } from "react";
 import { Image, ImageBackground, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Botao } from '../assets/components/botao/Botao';
 import { Card } from '../assets/components/card/Card';
 import { Input } from '../assets/components/input/Input';
 
 export default function Index() {
+
+  const [cep, setCep] = useState("");
+  const [jsonCep, setJsonCep] = useState({});
+
+  async function consultarCep() {
+    try {
+      if (cep !== "" && cep.length === 8) {
+        const resposta = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+        setJsonCep(resposta.data);
+
+      } else {
+        alert("O cep está incorreto. Digite com 8 números.")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // Retornar.
   return (
     <>
       {/* 1. Logo + Imagem de fundo */}
@@ -14,21 +35,32 @@ export default function Index() {
         </Image>
       </ImageBackground>
 
-      {/* 2. Campo de consulta */}
+      {/* Campo de consulta. */}
       <ScrollView style={styles.containerScroll}>
-        <View style={styles.container} >
+        <View style={styles.container}>
 
-          {/* 2.1. Título */}
-          <Text style={styles.titulo}> Consulte seu CEP </Text>
+          {/* Título. */}
+          <Text style={styles.titulo}>Consulte seu CEP</Text>
 
           {/* 2.2. Input */}
-          <Input />
+          <Input
+            valorCep={cep}
+            onChangeValorCep={e => setCep(e)}>
+          </Input>
 
           {/* 2.3. Botão */}
-          <Botao tituloBotao='Consultar' />
+          <Botao tituloBotao='Consultar' onPress={consultarCep} />
 
-          {/* 2.4. Card de informações */}
-          <Card />
+          {/* Card de informações */}
+          <Card
+            cep={jsonCep.cep}
+            logradouro={jsonCep.logradouro}
+            bairro={jsonCep.bairro}
+            uf={jsonCep.uf}
+            estado={jsonCep.estado}
+            regiao={jsonCep.regiao}
+          />
+
         </View>
       </ScrollView>
 

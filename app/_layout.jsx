@@ -8,7 +8,6 @@ export default function RootLayout() {
       <Stack.Screen name="index" options={{ title: '', headerTransparent: true, headerShown: false }} />
     </Stack>
 
-    // Segunda possível forma de desativar o nome padrão.
-    // return <Stack screenOptions={{ headerShown: false}} />;
+    // Segunda possível forma de desativar o nome padrão.    // return <Stack screenOptions={{ headerShown: false}} />;
   )
 }
