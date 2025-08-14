@@ -96,5 +96,7 @@ const styles = StyleSheet.create({
   },
   titulo: {
     fontSize: 25,
+    fontFamily: "Poppins-Bold",
+    color: '#000000'
   }
 })
